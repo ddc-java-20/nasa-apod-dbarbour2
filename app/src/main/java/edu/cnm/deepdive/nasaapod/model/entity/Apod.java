@@ -3,13 +3,19 @@ package edu.cnm.deepdive.nasaapod.model.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.net.URL;
 import java.time.LocalDate;
 
-@Entity(tableName = "apod")
+@Entity(
+    tableName = "apod",
+    indices = {
+        @Index(value = "date", unique = true)
+    }
+)
 public class Apod {
 
   @PrimaryKey(autoGenerate = true)
@@ -45,7 +51,8 @@ public class Apod {
   @NonNull
   private URL lowDefUrl;
 
-  @ColumnInfo(name = "high_def_url")@Expose
+  @ColumnInfo(name = "high_def_url")
+  @Expose
   @SerializedName("hdurl")
   private URL highDefUrl;
 
