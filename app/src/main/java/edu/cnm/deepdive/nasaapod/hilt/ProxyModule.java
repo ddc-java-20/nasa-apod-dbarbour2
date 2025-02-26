@@ -54,7 +54,7 @@ public class ProxyModule {
   @Singleton
   ApodProxyService provideProxy(@ApplicationContext Context context, Gson gson, OkHttpClient client) {
     return new Retrofit.Builder()
-        .client(new OkHttpClient())
+        .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .baseUrl(context.getString(R.string.base_url))

@@ -124,13 +124,16 @@ dependencies {
     // Google Sign-in library
     implementation(libs.play.auth)
 
+    // Picasso (image-handling) library
+    implementation(libs.picasso)
+
     // Retrofit (REST client) with ReactiveX & Gson integration
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.retrofit.adapter.rx.java)
 
-    //OkHttp3 (low-level HTTP client) library
-    implementation(libs.okhttp);
+    // OkHttp3 (low-level HTTP client) library
+    implementation(libs.okhttp)
 
     // Hilt dependency-injection library & annotation processor
     implementation(libs.hilt.android.core)
