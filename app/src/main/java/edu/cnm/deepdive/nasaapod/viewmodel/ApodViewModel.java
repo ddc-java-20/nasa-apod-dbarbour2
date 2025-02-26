@@ -11,6 +11,7 @@ import edu.cnm.deepdive.nasaapod.model.entity.Apod;
 import edu.cnm.deepdive.nasaapod.service.ApodRepository;
 import java.time.LocalDate;
 import java.util.List;
+import javax.inject.Inject;
 
 @HiltViewModel
 public class ApodViewModel extends ViewModel {
@@ -22,7 +23,8 @@ public class ApodViewModel extends ViewModel {
   private final LiveData<List<Apod>> apods;
   private final MutableLiveData<Throwable> throwable;
 
-  public ApodViewModel(ApodRepository repository) {
+  @Inject
+  ApodViewModel(ApodRepository repository) {
     this.repository = repository;
     dateRange = new MutableLiveData<>();
     apods = Transformations.switchMap(dateRange, (range) -> (range.endDate != null)
@@ -47,8 +49,7 @@ public class ApodViewModel extends ViewModel {
     repository
         .fetch(startDate, endDate)
         .subscribe(
-            () -> {
-            },
+            () -> {},
             this::postThrowable
         );
   }
@@ -61,8 +62,19 @@ public class ApodViewModel extends ViewModel {
     repository
         .fetch(startDate)
         .subscribe(
-            () -> {
-            },
+            () -> {},
+            this::postThrowable
+        );
+  }
+
+  /** @noinspection ResultOfMethodCallIgnored*/
+  @SuppressLint("CheckResult")
+  public void setToday() {
+    throwable.setValue(null);
+    repository
+        .fetch()
+        .subscribe(
+            () -> {},
             this::postThrowable
         );
   }
