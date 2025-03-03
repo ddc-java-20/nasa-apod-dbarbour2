@@ -26,38 +26,35 @@ public class CalendarFragment extends Fragment {
 
   @Nullable
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-
+  public View onCreateView(@NonNull LayoutInflater inflater,
+      @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     binding = FragmentCalendarBinding.inflate(inflater, container, false);
-
-    // TODO: 2/28/2025 initialize UI
+    // TODO: 2025-02-28 Initialize UI.
     return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity())
+        .get(ApodViewModel.class);
     YearMonth currentMonth = YearMonth.now();
     YearMonth startingMonth = YearMonth.of(1995, Month.JUNE);
     DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
     viewModel
         .getApodMap()
-        .observe(getViewLifecycleOwner(), apodMap -> {
+        .observe(getViewLifecycleOwner(), (apodMap) -> {
           binding.calendar.setDayBinder(new DayBinder(apodMap));
           binding.calendar.setup(startingMonth, currentMonth, firstDayOfWeek);
           binding.calendar.scrollToMonth(currentMonth);
         });
-    viewModel.setRange(currentMonth.atDay(1) );
-    // TODO: 2/28/2025 observe live data and start asychronous processes as necessary
-
+    viewModel.setRange(currentMonth.atDay(1));
+    // TODO: 2025-02-28 Observe livedata and start asynchronous processes, as necessary.
   }
 
   @Override
   public void onDestroyView() {
-    // TODO: 2/28/2025 release references to binging
-
+    // TODO: 2025-02-28 Release references to binding.
     super.onDestroyView();
   }
 
