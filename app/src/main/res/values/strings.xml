@@ -1,6 +1,6 @@
 <resources>
 
-  <sting name="first_apod_date">1995-06-16</sting>
+  <string name="first_apod_date">1995-06-16</string>
   <string name="year_month_format">MMMM yyyy</string>
   <string name="image_load_error_message">Unable to retrieve image.</string>
 
