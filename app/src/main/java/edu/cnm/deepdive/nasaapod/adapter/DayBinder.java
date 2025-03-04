@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 @FragmentScoped
 public class DayBinder implements MonthDayBinder<ViewContainer> {
 
-  public static final String TAG = DayBinder.class.getSimpleName();
+  private static final String TAG = DayBinder.class.getSimpleName();
 
   private final Map<LocalDate, Apod> apodMap;
   private final String apodTooltipFormat;
@@ -33,14 +33,12 @@ public class DayBinder implements MonthDayBinder<ViewContainer> {
 
   @Inject
   public DayBinder(@ActivityContext Context context) {
-
     this.apodMap = new HashMap<>();
     apodTooltipFormat = context.getString(R.string.apod_tooltip_format);
     mediaTypes = context
         .getResources()
         .getStringArray(R.array.media_types);
-    listener = (apod) -> {
-    };
+    listener = (apod) -> {};
   }
 
   @NotNull
@@ -64,8 +62,7 @@ public class DayBinder implements MonthDayBinder<ViewContainer> {
 
   public class DayHolder extends ViewContainer {
 
-    private static final OnClickListener NO_OP_LISTENER = (v) -> {
-    };
+    private static final OnClickListener NO_OP_LISTENER = (v) -> {};
 
     private final DayCalendarBinding binding;
     private final Drawable clickableBackground;
@@ -81,8 +78,8 @@ public class DayBinder implements MonthDayBinder<ViewContainer> {
     public void bind(CalendarDay calendarDay) {
       TextView dayText = binding.getRoot();
       dayText.setText(String.valueOf(calendarDay.getDate().getDayOfMonth()));
+      // TODO: 2025-02-28 Use information from apodMap to modify style/content of widgets.
       Apod apod = apodMap.get(calendarDay.getDate());
-
       if (apod != null) {
         this.apod = apod;
         dayText.setClickable(true);
@@ -90,14 +87,14 @@ public class DayBinder implements MonthDayBinder<ViewContainer> {
         dayText.setSoundEffectsEnabled(true);
         dayText.setOnClickListener(this::translateClick);
         dayText.setBackground(clickableBackground);
-        dayText.setTextAppearance((calendarDay.getPosition() == DayPosition.MonthDate)
-            ? R.style.CalendarTextAppearance_AvailableDay
-            : R.style.CalendarTextAppearance_AvailableDay_OutOfMonth);
+        dayText.setTextAppearance(
+            (calendarDay.getPosition() == DayPosition.MonthDate)
+                ? R.style.CalendarTextAppearance_AvailableDay
+                : R.style.CalendarTextAppearance_AvailableDay_OutOfMonth
+        );
         dayText.setTooltipText(String.format(apodTooltipFormat,
             mediaTypes[apod.getMediaType().ordinal()], apod.getTitle().strip()));
-
       } else {
-
         this.apod = null;
         dayText.setClickable(false);
         dayText.setFocusable(false);
@@ -112,12 +109,14 @@ public class DayBinder implements MonthDayBinder<ViewContainer> {
     private void translateClick(View view) {
       listener.onApodClick(apod);
     }
+
   }
 
   @FunctionalInterface
   public interface OnApodClickListener {
 
     void onApodClick(Apod apod);
+
   }
 
 }
